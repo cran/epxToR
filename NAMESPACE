@@ -1,0 +1,9 @@
+## exportPattern("^[[:alpha:]]+")
+import("XML","httr")
+
+export(
+  read.epx,
+  as.data.frame
+)
+
+S3method(as.data.frame, epx)
