@@ -1,6 +1,5 @@
-## exportPattern("^[[:alpha:]]+")
 import("XML","httr")
-
+importFrom("utils", "type.convert")
 export(
   read.epx,
   as.data.frame

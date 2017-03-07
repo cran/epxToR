@@ -86,56 +86,63 @@ epidata.records <- function(datfile, flds) {
 }
 
 
-
+## ======================================================================
+## Purpose: Convert from epidata to R data types
+## ----------------------------------------------------------------------
+## Arguments: x: a vector of values
+## fld.type: the epidata type (a code number)
+## Settings: settings information, as returned by epidata.meta.data()
+## ----------------------------------------------------------------------
+## Author: jp.decorps@epiconcept.fr, Date: 7 Mar 2017
+## ======================================================================
 convert.type <- function(x, fld.type, Settings) {
-  ## Purpose: Convert from epidata to R data types
-  ## ----------------------------------------------------------------------
-  ## Arguments: x: a vector of values
-  ## fld.type: the epidata type (a code number)
-  ## Settings: settings information, as returned by epidata.meta.data()
-  ## ----------------------------------------------------------------------
-  ##
-  if (fld.type == "ftString") {
-    x <- gsub('\\"', '', x)
-  } else if (fld.type == "ftInteger") {
-    x <- as.integer(as.character(x))
-  } else if (fld.type == "ftFloat") {
-    x <- as.numeric(gsub(",", ".", as.character(x)))
-  } else {
-    status.log(paste("Field type not handled:", fld.type))
-  }
 
-  # if (fld.type %in% c(1, 2)) {
-  #   x <- as.numeric(as.character(x))
-  # } else if (fld.type %in% c(12, 13)){
-  #   ## Characters, do nothing
-  # } else if (fld.type == 3){
-  #   ## Decimal separator hack. It should convert to whatever R is using.
-  #   levels(x) <- gsub("[,.]", Sys.localeconv()[['decimal_point']], levels(x))
-  #   x <- as.numeric(as.character(x))
-  # } else if (fld.type %in% c(4, 7) ){
-  #   ## 16/05/1968 (DD/MM/YYYY, i.e. 16th of May, 1968)
-  #   dateFormat <- paste("%d", "%m", "%Y", sep = Settings$DateSeparator)
-  #   x <- as.Date(x, dateFormat)
-  # } else if (fld.type %in% c(5, 8) ){
-  #   ## 16/05/1968 (MM/DD/YYYY, i.e. May 16th, 1968)
-  #   dateFormat <- paste("%m", "%d", "%Y", sep = Settings$DateSeparator)
-  #   x <- as.Date(x, dateFormat)
-  # } else if (fld.type %in% c(6, 9) ){
-  #   ## 16/05/1968 (YYYY/MM/DD, i.e. 1968, May 16th)
-  #   dateFormat <- paste("%Y", "%m", "%d", sep = Settings$DateSeparator)
-  #   x <- as.Date(x, dateFormat)
-  # } else if (fld.type %in% c(10, 11) ){
-  #   ## Time fields. At the moment it sets the date part to the current date.
-  #   timeFormat <- paste("%H", "%M", "%S", sep = Settings$TimeSeparator)
-  #   x <- as.POSIXct(strptime(x, timeFormat))
-  # } else if (fld.type == 0){
-  #   ## Logical - empty to NA, Y to TRUE, else to FALSE
-  #   x[x == ""] <- NA
-  #   x <- x == "Y"
-  # } else {
-  #   status.log(paste("Field type not handled:", fld.type))
-  # }
+  if (!is.factor(x)) {
+    if (fld.type == "ftString") {
+      x <- gsub('\\"', '', x)
+    } else if (fld.type == "ftInteger") {
+      x <- as.integer(x)
+    }else if (fld.type == "ftFloat") {
+       x <-type.convert(as.character(x), dec=",")
+    }else if (fld.type == "ftDMYDate") {
+      x <- as.Date(as.character(x), "%d/%m/%Y")
+    }
+    else {
+      status.log(paste("Field type not handled:", fld.type))
+    }
+
+    # if (fld.type %in% c(1, 2)) {
+    #   x <- as.numeric(as.character(x))
+    # } else if (fld.type %in% c(12, 13)){
+    #   ## Characters, do nothing
+    # } else if (fld.type == 3){
+    #   ## Decimal separator hack. It should convert to whatever R is using.
+    #   levels(x) <- gsub("[,.]", Sys.localeconv()[['decimal_point']], levels(x))
+    #   x <- as.numeric(as.character(x))
+    # } else if (fld.type %in% c(4, 7) ){
+    #   ## 16/05/1968 (DD/MM/YYYY, i.e. 16th of May, 1968)
+    #   dateFormat <- paste("%d", "%m", "%Y", sep = Settings$DateSeparator)
+    #   x <- as.Date(x, dateFormat)
+    # } else if (fld.type %in% c(5, 8) ){
+    #   ## 16/05/1968 (MM/DD/YYYY, i.e. May 16th, 1968)
+    #   dateFormat <- paste("%m", "%d", "%Y", sep = Settings$DateSeparator)
+    #   x <- as.Date(x, dateFormat)
+    # } else if (fld.type %in% c(6, 9) ){
+    #   ## 16/05/1968 (YYYY/MM/DD, i.e. 1968, May 16th)
+    #   dateFormat <- paste("%Y", "%m", "%d", sep = Settings$DateSeparator)
+    #   x <- as.Date(x, dateFormat)
+    # } else if (fld.type %in% c(10, 11) ){
+    #   ## Time fields. At the moment it sets the date part to the current date.
+    #   timeFormat <- paste("%H", "%M", "%S", sep = Settings$TimeSeparator)
+    #   x <- as.POSIXct(strptime(x, timeFormat))
+    # } else if (fld.type == 0){
+    #   ## Logical - empty to NA, Y to TRUE, else to FALSE
+    #   x[x == ""] <- NA
+    #   x <- x == "Y"
+    # } else {
+    #   status.log(paste("Field type not handled:", fld.type))
+    # }
+  }
   x
 }
 
