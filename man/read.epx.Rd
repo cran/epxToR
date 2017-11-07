@@ -20,12 +20,13 @@ read.epx(x, use.epidata.labels = TRUE, set.missing.na = TRUE)
 \bold{Boolean} - replace missing by NA. Default is TRUE
 }
 }
+
 \details{
-----
+This function read an Epidata file containing new xml format data.
 }
 
 \value{
-----
+An "epx" object
 
 }
 \references{
@@ -40,23 +41,14 @@ This work is derived from the work of David Whiting.
 Be careful, don't include ',' or ';' into text field, these characters can be
 used as separators.
 
-Epidata types handled :
+Epidata types handled : ftString, ftInteger, ftFloat, ftDMYDate
 
-- ftString
 
-- ftInteger
-
-- ftFloat
-
-- ftDMYDate
-
+WARNING: with R 3.4.0 this function generates many warning. That is tied to the fact than XML package has not still be updated.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-----
-}
 \examples{
 # -----------
 }

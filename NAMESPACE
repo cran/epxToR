@@ -2,7 +2,9 @@ import("XML","httr")
 importFrom("utils", "type.convert")
 export(
   read.epx,
-  as.data.frame
+  as.data.frame,
+  abstract
 )
 
 S3method(as.data.frame, epx)
+S3method(abstract, epx)

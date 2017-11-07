@@ -246,7 +246,7 @@ read.epx <- function(x,
   y[['labels']] <- get.epidata.value.labels(epidata, y$Settings)
   y[['ProjectSettings']] <- epidata.meta.data(epidata, "ProjectSettings")
 #  y[['Admin']] <- epidata.meta.data(epidata, "Admin")
-#  y[['Study']] <- epidata.meta.data(epidata, "Study")
+  y[['Study']] <- epidata.study.info(epidata)
 
   if (use.epidata.labels & "data" %in% names(y)) {
     status.log("Use epidata labels")
@@ -255,10 +255,13 @@ read.epx <- function(x,
   duration <- round(as.numeric(difftime(Sys.time(), t1), units = "secs"), 1)
   status.log(paste("Finished in", duration, "seconds."))
 
-  # y
+  # return(y) # y
 
   # --- Create an epx.data object
-  structure(list("epx"=y), class = "epx")
+  # structure(list("epx"=y), class = "epx")
+  # epx <- list(y)
+  class(y) <- "epx"
+  y
 }
 
 ## ======================================================================
@@ -272,10 +275,47 @@ read.epx <- function(x,
 ## ======================================================================
 as.data.frame <- function(x) UseMethod("as.data.frame", x)
 as.data.frame.epx <- function(x) {
-  x$epx$data$datafile_id_1
+  x$data$datafile_id_1
 }
 
+## ======================================================================
+## Function: return Study infos as a data.frame
+## Description: S3 method - return data.frame from epx object.
+## ----------------------------------------------------------------------
+## Arguments: x: an epx object from read.epx
+## Return: a data.frame
+## ----------------------------------------------------------------------
+## Author: jp.decorps@epiconcept.fr, Date: 07 Mar 2017, 02:38
+## ======================================================================
+abstract <- function(x) UseMethod("abstract", x)
+abstract.epx <- function(x) {
+  I <- c("File name", "Title", "Author", "Agency",
+            "Created", "Identifier", "Modified",  "Notes", "Version")
+  Z <- x$Study
+  V <- lapply(x$Study, function(x) ifelse(is.null(x), NA, x))
+  R <- c(V$Title[[1]], V$Author, V$Agency, V$Created, V$Identifier, V$Modified, V$Notes, V$Version)
+  R <- c(x$filename, R)
 
+  #return(R)
+  df <- data.frame(I, R)
+  colnames(df) <- c("Info", "Value")
+  df
+}
+
+## ======================================================================
+## Purpose: Get somes infos about the study
+## ----------------------------------------------------------------------
+## Arguments: x: an xmlRoot()
+## ----------------------------------------------------------------------
+## Author: jp.decorps@epiconcept.fr, Date: 07 Mar 2017, 01:15
+## ======================================================================
+epidata.study.info <- function(x) {
+  .tag <- "StudyInfo"
+  l_node <- xmlElementsByTagName(x, .tag, recursive = TRUE)[[.tag]]
+  .l = xmlToList(node=l_node)
+  .l
+
+}
 ## ======================================================================
 ## Purpose: Get the epidata settings information
 ## ----------------------------------------------------------------------
@@ -290,7 +330,7 @@ epidata.meta.data <- function(x, tag) {
   y <- list()
   l_node <- xmlElementsByTagName(x, tag, recursive = TRUE)[[tag]]
   l_attr <- xmlAttrs(l_node, TRUE, TRUE)
-
+  status.log("epidata.meta.data")
   for (i in 1:xmlSize(l_attr)) {
     dd <- l_attr[[i]]
     if (length(dd) == 0) dd <- ""
