@@ -13,6 +13,10 @@ with R 3.4.0 this function generates many warning. That is tied to the fact than
 
 ## Changelog
 
+### 0.4-0 - 2019-09-18
+
+Handle version 5 of epx.xsd
+
 ### 0.3-0 - 2017-11-07
 
 ADD: "abstract" method which returns some fields of StudyInfo.

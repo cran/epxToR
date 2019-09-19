@@ -1,7 +1,7 @@
-8ae7ba622a6475ab76a9bc0ff833ec41 *DESCRIPTION
+4c68876323b7d6355744f90367c5476b *DESCRIPTION
 0f281276e8760c5c351a6ef4af0af054 *NAMESPACE
-d8f8eaed07ac746c9a8bc6f6f84e80d0 *R/read-epx.R
-3ab5b3b9a047e9514de08831777ba2d1 *README.md
-febc916e8c441a28e733230ec2bd6573 *man/abstract.Rd
-e00ca6237739a8a83d7ce1235c1d9aa0 *man/as.data.frame.Rd
-283c8f019b5efd11ee57f4bc7a4356aa *man/read.epx.Rd
+0411ed7565ca09423818ae62f11a75d1 *R/read-epx.R
+a3a990f2b2c1b9b9062a74caf385b2bb *README.md
+7a55635d6790fea0d1b096f8fc8a4708 *man/abstract.Rd
+8daf607fba44b987c300c4871c8a3041 *man/as.data.frame.Rd
+fe3219b85a9bf3fe84d33c0b2d74716f *man/read.epx.Rd

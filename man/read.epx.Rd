@@ -54,5 +54,4 @@ WARNING: with R 3.4.0 this function generates many warning. That is tied to the 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ~documentation }

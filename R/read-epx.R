@@ -164,23 +164,26 @@ epidata.apply.field.structure <- function(sections, dat, Settings) {
 
   num.sections <- xmlSize(xmlChildren(sections))
 
-  for (si in 2:num.sections) {
+  print(num.sections)
+
+  for (si in 1:num.sections) {
     fields <- xmlChildren(xmlChildren(sections)[[si]])[["Fields"]]
     num.flds <- xmlSize(fields)
-
-    for (i in 1:num.flds) {
-      field <- xmlChildren(fields)[[i]]
-      A_ <- xmlAttrs(field)
-      fld.id <- A_["id"]
-      # fld.id <- xmlAttrs(field)
-      # fld.name <- xmlValue(xmlChildren(field)[["Name"]])
-      fld.type <- A_["type"]
-      # fld.type <- xmlValue(xmlChildren(field)[["type"]])
-      # print(fld.type)
-      fld <- which(names(dat) == fld.id)
-      # names(dat)[fld] <- fld.name
-      names(dat)[fld] <- fld.id
-      dat[, fld] <- convert.type(dat[, fld], fld.type, Settings)
+    if (num.flds > 1) {
+      for (i in 1:num.flds) {
+        field <- xmlChildren(fields)[[i]]
+        A_ <- xmlAttrs(field)
+        fld.id <- A_["id"]
+        # fld.id <- xmlAttrs(field)
+        # fld.name <- xmlValue(xmlChildren(field)[["Name"]])
+        fld.type <- A_["type"]
+        # fld.type <- xmlValue(xmlChildren(field)[["type"]])
+        # print(fld.type)
+        fld <- which(names(dat) == fld.id)
+        # names(dat)[fld] <- fld.name
+        names(dat)[fld] <- fld.id
+        dat[, fld] <- convert.type(dat[, fld], fld.type, Settings)
+      }
     }
   }
   dat
@@ -275,7 +278,7 @@ read.epx <- function(x,
 ## ======================================================================
 as.data.frame <- function(x) UseMethod("as.data.frame", x)
 as.data.frame.epx <- function(x) {
-  x$data$datafile_id_1
+  x$data[[1]]
 }
 
 ## ======================================================================
