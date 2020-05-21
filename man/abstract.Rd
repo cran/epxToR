@@ -31,7 +31,7 @@ abstract(x)
 }
 
 \author{
-Jean Pierre Decorps <jp.decorps@epiconcept.fr>
+Jean Pierre Decorps <jean.pierre.decorps@gmail.com>
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

@@ -26,7 +26,7 @@ as.data.frame(x)
 ----
 }
 \author{
-Jean Pierre Decorps <jp.decorps@epiconcept.fr>
+Jean Pierre Decorps <jean.pierre.decorps@gmail.com>
 }
 \note{
 ----
